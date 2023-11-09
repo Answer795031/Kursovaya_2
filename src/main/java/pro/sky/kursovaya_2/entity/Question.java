@@ -4,8 +4,8 @@ import java.util.Objects;
 
 public class Question {
 
-    private final String question;
-    private final String answer;
+    private final String question; // текст вопроса
+    private final String answer; // текст ответа
 
     public Question(String question, String answer) {
         this.question = question;
@@ -22,6 +22,7 @@ public class Question {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Question question1 = (Question) o;

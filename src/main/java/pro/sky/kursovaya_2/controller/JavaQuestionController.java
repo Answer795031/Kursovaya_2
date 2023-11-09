@@ -1,20 +1,41 @@
 package pro.sky.kursovaya_2.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pro.sky.kursovaya_2.service.QuestionService;
+import org.springframework.web.bind.annotation.*;
+import pro.sky.kursovaya_2.entity.Question;
+import pro.sky.kursovaya_2.service.JavaQuestionService;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/exam/java")
 public class JavaQuestionController {
 
-    private final QuestionService service;
+    @ExceptionHandler
+    public String handleException(RuntimeException e){
+        return e.getMessage();
+    }
 
+    private final JavaQuestionService service;
 
-    public JavaQuestionController(QuestionService service) {
+    public JavaQuestionController(JavaQuestionService service) {
         this.service = service;
     }
 
+    @GetMapping(path = "/add", params = {"question","answer"})
+    public Question addQuestion(@RequestParam String question,
+                                @RequestParam String answer) {
+        return service.add(question, answer);
+    }
 
+    @GetMapping(path = "/remove", params = {"question","answer"})
+    public Question removeQuestion(@RequestParam String question,
+                                   @RequestParam String answer) {
+        Question q = new Question(question, answer);
+        return service.remove(q);
+    }
 
+    @GetMapping
+    public Collection<Question> getQuestions() {
+        return service.getAll();
+    }
 }
