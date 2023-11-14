@@ -1,8 +1,9 @@
 package pro.sky.kursovaya_2.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.kursovaya_2.entity.Question;
-import pro.sky.kursovaya_2.service.JavaQuestionService;
+import pro.sky.kursovaya_2.service.QuestionService;
 
 import java.util.Collection;
 
@@ -15,9 +16,9 @@ public class JavaQuestionController {
         return e.getMessage();
     }
 
-    private final JavaQuestionService service;
+    private final QuestionService service;
 
-    public JavaQuestionController(JavaQuestionService service) {
+    public JavaQuestionController(@Qualifier("javaQuestionService") QuestionService service) {
         this.service = service;
     }
 
@@ -31,7 +32,7 @@ public class JavaQuestionController {
     public Question removeQuestion(@RequestParam String question,
                                    @RequestParam String answer) {
         Question q = new Question(question, answer);
-        return service.remove(q);
+        return service.remove(question, answer);
     }
 
     @GetMapping
